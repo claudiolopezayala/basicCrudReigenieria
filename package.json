@@ -8,7 +8,11 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node src/index.ts"
+    "dev": "ts-node src/index.ts",
+    "watch": "nodemon src/index.ts",
+    "generate-migrations": "drizzle-kit generate",
+    "execute-migrations": "drizzle-kit migrate",
+    "migrate": "yarn run generate-migrations && yarn run execute-migrations"
   },
   "author": "",
   "license": "ISC",

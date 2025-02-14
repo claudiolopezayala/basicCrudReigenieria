@@ -1,4 +1,4 @@
-import { PORT } from "@utils/dotenv"
+import { PORT } from "./utils/dotenv"
 import express, {Request, Response} from "express"
 import { StatusCodes } from "http-status-codes"
 

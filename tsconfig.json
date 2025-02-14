@@ -9,6 +9,7 @@
     "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "noErrorTruncation": true,
+    "moduleResolution": "node",
     "paths": {
       "@controllers/*": ["controllers/*"],
       "@controllers": ["controllers"],
