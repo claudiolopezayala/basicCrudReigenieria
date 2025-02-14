@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "build",
+    "lib": ["es2018", "dom"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "baseUrl": "./src",
+    "allowSyntheticDefaultImports": true,
+    "noErrorTruncation": true,
+    "paths": {
+      "@controllers/*": ["controllers/*"],
+      "@controllers": ["controllers"],
+      "@routes/*": ["routes/*"],
+      "@utils/*": ["utils/*"],
+      "@utils": ["utils"],
+      "@db/*": ["db/*"],
+      "@db": ["db"],
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/index.ts",
+    "drizzle.config.ts"
+  ],
+  "exclude": ["./coverage", "./dist", "__tests__", "jest.config.js"]
+}
