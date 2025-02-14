@@ -16,12 +16,6 @@
   },
   "author": "",
   "license": "ISC",
-  "_moduleAliases": {
-    "@controllers": "build/src/controllers",
-    "@routes": "build/src/routes",
-    "@utils": "build/src/utils",
-    "@db": "build/src/db"
-  },
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.4",
@@ -33,6 +27,7 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
+    "@types/pg": "^8.11.11",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.39.3",
     "express": "^4.21.2",
