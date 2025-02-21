@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { db } from "../db/connection.db";
-import { productTable } from "../db/schemas/productSchema";
+import { productTable, inventoryTable } from "../db/schemas/productSchema";
 import { StatusCodes } from "http-status-codes";
 import { eq } from "drizzle-orm";
 
@@ -89,6 +89,39 @@ export const deleteProduct = async (req: Request, res: Response) => {
       .json({ 
         message: "Failed to delete product" ,
         error: error
+      });
+  }
+};
+
+export const updateInventory = async (req: Request, res: Response) => {
+  const { product_id, quantity } = req.body;
+  try {
+    const newInventory = await db
+      .insert(inventoryTable)
+      .values({ product_id, quantity })
+      .returning();
+
+    const [product] = await db
+      .select()
+      .from(productTable)
+      .where(eq(productTable.id, product_id))
+
+    const updatedStock = product.stock + quantity;
+
+    await db
+      .update(productTable)
+      .set({ stock: updatedStock })
+      .where(eq(productTable.id, product_id));
+
+    res
+      .status(StatusCodes.OK)
+      .json(newInventory);
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ 
+        message: "Failed to update inventory", 
+        error: error 
       });
   }
 };
