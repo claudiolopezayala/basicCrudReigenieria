@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 export const createProduct = async (req: Request, res: Response) => {
   const product = req.body;
   try {
-    const newProduct = await db
+    const [newProduct] = await db
       .insert(productTable)
       .values(product)
       .returning();
@@ -47,14 +47,14 @@ export const getProducts = async (req: Request, res: Response) => {
 export const updateProduct = async (req: Request, res: Response) => {
   const product = req.body;
   try {
-    const oldProduct = await db
+    const [oldProduct] = await db
       .select()
       .from(productTable)
       .where(eq(productTable.id, product.id))
 
     const newProduct = {...oldProduct, ...product}
 
-    const updatedProduct = await db
+    const [updatedProduct] = await db
       .update(productTable)
       .set(newProduct)
       .where(eq(productTable.id, product.id))
@@ -96,7 +96,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
 export const updateInventory = async (req: Request, res: Response) => {
   const { product_id, quantity } = req.body;
   try {
-    const newInventory = await db
+    const [newInventory] = await db
       .insert(inventoryTable)
       .values({ product_id, quantity })
       .returning();
