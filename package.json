@@ -12,7 +12,9 @@
     "watch": "nodemon src/index.ts",
     "generate-migrations": "drizzle-kit generate",
     "execute-migrations": "drizzle-kit migrate",
-    "migrate": "yarn run generate-migrations && yarn run execute-migrations"
+    "migrate": "yarn run generate-migrations && yarn run execute-migrations",
+    "build": "tsc",
+    "start": "yarn build && node build/src/index.js"
   },
   "author": "",
   "license": "ISC",

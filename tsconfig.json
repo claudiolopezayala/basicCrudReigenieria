@@ -9,16 +9,7 @@
     "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "noErrorTruncation": true,
-    "moduleResolution": "node",
-    "paths": {
-      "@controllers/*": ["controllers/*"],
-      "@controllers": ["controllers"],
-      "@routes/*": ["routes/*"],
-      "@utils/*": ["utils/*"],
-      "@utils": ["utils"],
-      "@db/*": ["db/*"],
-      "@db": ["db"],
-    }
+    "moduleResolution": "node"
   },
   "include": [
     "src/**/*.ts",

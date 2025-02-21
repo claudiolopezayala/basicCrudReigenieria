@@ -3,6 +3,7 @@ import { PORT } from "./utils/dotenv"
 import express, {Request, Response} from "express"
 import { StatusCodes } from "http-status-codes"
 import {testTable} from "./db/schemas/testSchema"
+import { router } from "./routes/app.routes"
 
 const app = express()
 
@@ -19,6 +20,8 @@ app.get("/",async (req:Request, res:Response)=>{
     
   res.json(values).status(StatusCodes.OK).send()
 })
+
+app.use("/", router);
 
 app.listen(PORT,()=>{
   console.log(`Listening on:\nhttp://localhost:${PORT}/`)
