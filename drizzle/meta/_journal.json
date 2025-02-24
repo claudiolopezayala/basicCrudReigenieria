@@ -15,6 +15,13 @@
       "when": 1740099244209,
       "tag": "0001_furry_jetstream",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1740431576750,
+      "tag": "0002_dusty_kat_farrell",
+      "breakpoints": true
     }
   ]
 }
