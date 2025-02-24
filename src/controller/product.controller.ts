@@ -11,8 +11,6 @@ import { eq } from "drizzle-orm";
  *     summary: Crear un nuevo producto
  *     tags:
  *       - Productos
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -75,8 +73,6 @@ export const createProduct = async (req: Request, res: Response) => {
  *     summary: Obtener la lista de productos
  *     tags:
  *       - Productos
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Lista de productos obtenida correctamente.
@@ -113,8 +109,6 @@ export const getProducts = async (req: Request, res: Response) => {
  *     summary: Actualizar un producto existente
  *     tags:
  *       - Productos
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -184,8 +178,6 @@ export const updateProduct = async (req: Request, res: Response) => {
  *     summary: Eliminar un producto
  *     tags:
  *       - Productos
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -230,8 +222,6 @@ export const deleteProduct = async (req: Request, res: Response) => {
  *     summary: Actualizar el inventario de un producto
  *     tags:
  *       - Productos
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
