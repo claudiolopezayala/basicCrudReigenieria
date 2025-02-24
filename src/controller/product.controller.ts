@@ -4,6 +4,49 @@ import { productTable, inventoryTable } from "../db/schemas/productSchema";
 import { StatusCodes } from "http-status-codes";
 import { eq } from "drizzle-orm";
 
+/**
+ * @swagger
+ * /product:
+ *   post:
+ *     summary: Crear un nuevo producto
+ *     tags:
+ *       - Productos
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [name, price, stock]
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 maxLength: 150
+ *                 description: Nombre del producto.
+ *               description:
+ *                 type: string
+ *                 maxLength: 255
+ *                 description: Descripción del producto (opcional).
+ *               price:
+ *                 type: number
+ *                 minimum: 0
+ *                 description: Precio del producto.
+ *               stock:
+ *                 type: number
+ *                 minimum: 0
+ *                 description: Cantidad en stock.
+ *     responses:
+ *       201:
+ *         description: Producto creado correctamente.
+ *       400:
+ *         description: Solicitud incorrecta.
+ *       401:
+ *         description: No autenticado.
+ *       403:
+ *         description: Usuario sin permiso.
+ */
 export const createProduct = async (req: Request, res: Response) => {
   const product = req.body;
   try {
@@ -25,6 +68,25 @@ export const createProduct = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * @swagger
+ * /product:
+ *   get:
+ *     summary: Obtener la lista de productos
+ *     tags:
+ *       - Productos
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de productos obtenida correctamente.
+ *       400:
+ *         description: Solicitud incorrecta.
+ *       401:
+ *         description: No autenticado.
+ *       403:
+ *         description: Usuario sin permiso.
+ */
 export const getProducts = async (req: Request, res: Response) => {
   try {
     const products = await db
@@ -44,6 +106,48 @@ export const getProducts = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * @swagger
+ * /product:
+ *   put:
+ *     summary: Actualizar un producto existente
+ *     tags:
+ *       - Productos
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [id]
+ *             properties:
+ *               id:
+ *                 type: number
+ *                 description: ID del producto a actualizar.
+ *               name:
+ *                 type: string
+ *                 maxLength: 150
+ *                 description: Nuevo nombre del producto.
+ *               description:
+ *                 type: string
+ *                 maxLength: 255
+ *                 description: Nueva descripción del producto.
+ *               price:
+ *                 type: number
+ *                 minimum: 0
+ *                 description: Nuevo precio del producto.
+ *     responses:
+ *       200:
+ *         description: Producto actualizado correctamente.
+ *       400:
+ *         description: Solicitud incorrecta.
+ *       401:
+ *         description: No autenticado.
+ *       403:
+ *         description: Usuario sin permiso.
+ */
 export const updateProduct = async (req: Request, res: Response) => {
   const product = req.body;
   try {
@@ -73,6 +177,32 @@ export const updateProduct = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * @swagger
+ * /product/{id}:
+ *   delete:
+ *     summary: Eliminar un producto
+ *     tags:
+ *       - Productos
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: number
+ *         description: ID del producto a eliminar.
+ *     responses:
+ *       200:
+ *         description: Producto eliminado correctamente.
+ *       400:
+ *         description: Solicitud incorrecta.
+ *       401:
+ *         description: No autenticado.
+ *       403:
+ *         description: Usuario sin permiso.
+ */
 export const deleteProduct = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
@@ -93,6 +223,40 @@ export const deleteProduct = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * @swagger
+ * /product/inventory:
+ *   post:
+ *     summary: Actualizar el inventario de un producto
+ *     tags:
+ *       - Productos
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [product_id, quantity]
+ *             properties:
+ *               product_id:
+ *                 type: number
+ *                 description: ID del producto.
+ *               quantity:
+ *                 type: number
+ *                 minimum: 1
+ *                 description: Cantidad a agregar al inventario.
+ *     responses:
+ *       200:
+ *         description: Inventario actualizado correctamente.
+ *       400:
+ *         description: Solicitud incorrecta.
+ *       401:
+ *         description: No autenticado.
+ *       403:
+ *         description: Usuario sin permiso.
+ */
 export const updateInventory = async (req: Request, res: Response) => {
   const { product_id, quantity } = req.body;
   try {
