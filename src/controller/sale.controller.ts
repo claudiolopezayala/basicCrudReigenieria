@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { saleItemTable, saleTable } from "../db/schemas/saleSchema";
 import { productTable } from "../db/schemas/productSchema";
 
-export const createSale = async (req: Request, res: Response) => {//TODO: only unique items
+export const createSale = async (req: Request, res: Response) => {
   const sale: typeof saleTable.$inferInsert & {items:(typeof saleItemTable.$inferInsert)[]} = req.body;
   try {
     const {items, ...saleToInsert} = sale
@@ -69,10 +69,13 @@ export const createSale = async (req: Request, res: Response) => {//TODO: only u
 
 export const getSales = async (req: Request, res: Response) => {
   try {
+    const sales = await db
+      .select()
+      .from(saleTable)
 
     res
       .status(StatusCodes.OK)
-      .json();
+      .json(sales);
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
