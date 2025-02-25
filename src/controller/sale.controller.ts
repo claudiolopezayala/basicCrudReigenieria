@@ -117,11 +117,17 @@ export const getSaleById = async (req: Request, res: Response) => {
 };
 
 export const updateSale = async (req: Request, res: Response) => {
-  const Sale = req.body;
+  const sale = req.body;
   try {
+    const [updatedSale] = await db
+      .update(saleTable)
+      .set({status: sale.status})
+      .where(eq(saleTable.id, sale.id))
+      .returning()
+
     res
       .status(StatusCodes.OK)
-      .json();
+      .json(updatedSale);
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
