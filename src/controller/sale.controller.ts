@@ -33,12 +33,14 @@ export const createSale = async (req: Request, res: Response) => {
         const [product] = await trx
           .select()
           .from(productTable)
+          .where(eq(productTable.id, item.product_id))
 
         const newStock = (product.stock || 0) - item.quantity
 
         const [updatedProduct] = await trx
           .update(productTable)
           .set({stock: newStock})
+          .where(eq(productTable.id, item.product_id))
           .returning()
 
         item.sale_id = insertedSale.id
@@ -88,10 +90,22 @@ export const getSales = async (req: Request, res: Response) => {
 
 export const getSaleById = async (req: Request, res: Response) => {
   try {
+    const id = +req.params.id
+
+    const [sale] = await db
+      .select()
+      .from(saleTable)
+      .where(eq(saleTable.id, id))
+
+    const items = await db
+      .select()
+      .from(saleItemTable)
+      .innerJoin(productTable, eq(productTable.id, saleItemTable.product_id))
+      .where(eq(saleItemTable.sale_id, sale.id))
 
     res
       .status(StatusCodes.OK)
-      .json();
+      .json({...sale, items});
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
