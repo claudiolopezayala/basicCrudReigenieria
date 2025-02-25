@@ -21,7 +21,7 @@ export const saleTable = saleSchema.table("sale",{
 
 export const saleItemTable = saleSchema.table("sale_item",{
   id: serial("id").primaryKey(),
-  sale_id: integer("sale_id").notNull().references(()=>saleTable.id),
+  sale_id: integer("sale_id").notNull().references(()=>saleTable.id,{onDelete:"cascade"}),
   product_id: integer("product_id").notNull().references(()=>productTable.id),
   quantity: integer("quantity").notNull(),
   price: decimal("price").notNull()

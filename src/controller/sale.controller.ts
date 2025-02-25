@@ -139,8 +139,11 @@ export const updateSale = async (req: Request, res: Response) => {
 };
 
 export const deleteSale = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const id = +req.params.id;
   try {
+    await  db
+      .delete(saleTable)
+      .where(eq(saleTable.id, id))
 
     res
       .status(StatusCodes.NO_CONTENT)
