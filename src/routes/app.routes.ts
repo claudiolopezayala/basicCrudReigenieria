@@ -6,6 +6,7 @@ import purchaseRouter from "./purchase.routes";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 import { swaggerOptions } from "../swagger/config.swagger";
+import { saleRouter } from "./sale.routes";
 
 const swaggerDoc = swaggerJSDoc(swaggerOptions);
 
@@ -15,6 +16,7 @@ router.use("/product", productRouter)
 router.use("/employee", employeeRouter)
 router.use("/client", clientRouter)
 router.use("/purchase", purchaseRouter)
+router.use("/sale", saleRouter)
 
 router.use(
   "/",
