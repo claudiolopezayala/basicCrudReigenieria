@@ -5,6 +5,67 @@ import { eq } from "drizzle-orm";
 import { saleItemTable, saleTable } from "../db/schemas/saleSchema";
 import { productTable } from "../db/schemas/productSchema";
 
+/**
+ * @swagger
+ * /sale:
+ *   post:
+ *     summary: Crear una venta
+ *     tags:
+ *       - Ventas
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - client_id
+ *               - employee_id
+ *               - total_amount
+ *               - status
+ *               - items
+ *             properties:
+ *               client_id:
+ *                 type: number
+ *                 description: ID del cliente
+ *               employee_id:
+ *                 type: number
+ *                 description: ID del empleado
+ *               total_amount:
+ *                 type: number
+ *                 description: Monto total de la venta
+ *               status:
+ *                 type: string
+ *                 description: Estado de la venta
+ *               items:
+ *                 type: array
+ *                 description: Lista de productos en la venta
+ *                 items:
+ *                   type: object
+ *                   required:
+ *                     - product_id
+ *                     - price
+ *                     - quantity
+ *                   properties:
+ *                     product_id:
+ *                       type: number
+ *                       description: ID del producto
+ *                     price:
+ *                       type: number
+ *                       description: Precio del producto
+ *                     quantity:
+ *                       type: number
+ *                       description: Cantidad de productos
+ *     responses:
+ *       201:
+ *         description: Venta creada correctamente.
+ *       400:
+ *         description: Solicitud incorrecta.
+ *       401:
+ *         description: No autenticado.
+ *       403:
+ *         description: Usuario sin permiso.
+ */
 export const createSale = async (req: Request, res: Response) => {
   const sale: typeof saleTable.$inferInsert & {items:(typeof saleItemTable.$inferInsert)[]} = req.body;
   try {
@@ -69,6 +130,23 @@ export const createSale = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * @swagger
+ * /sale:
+ *   get:
+ *     summary: Obtener todas las ventas
+ *     tags:
+ *       - Ventas
+ *     responses:
+ *       200:
+ *         description: Lista de ventas obtenida correctamente.
+ *       400:
+ *         description: Solicitud incorrecta.
+ *       401:
+ *         description: No autenticado.
+ *       403:
+ *         description: Usuario sin permiso.
+ */
 export const getSales = async (req: Request, res: Response) => {
   try {
     const sales = await db
@@ -88,6 +166,30 @@ export const getSales = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * @swagger
+ * /sale/{id}:
+ *   get:
+ *     summary: Obtener una venta por ID
+ *     tags:
+ *       - Ventas
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: number
+ *         description: ID de la venta a consultar.
+ *     responses:
+ *       200:
+ *         description: Venta obtenida correctamente.
+ *       400:
+ *         description: Solicitud incorrecta.
+ *       401:
+ *         description: No autenticado.
+ *       403:
+ *         description: Usuario sin permiso.
+ */
 export const getSaleById = async (req: Request, res: Response) => {
   try {
     const id = +req.params.id
@@ -116,6 +218,39 @@ export const getSaleById = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * @swagger
+ * /sale:
+ *   put:
+ *     summary: Actualizar el estado de una venta
+ *     tags:
+ *       - Ventas
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *               - status
+ *             properties:
+ *               id:
+ *                 type: number
+ *                 description: ID de la venta
+ *               status:
+ *                 type: string
+ *                 description: Nuevo estado de la venta
+ *     responses:
+ *       200:
+ *         description: Estado de la venta actualizado correctamente.
+ *       400:
+ *         description: Solicitud incorrecta.
+ *       401:
+ *         description: No autenticado.
+ *       403:
+ *         description: Usuario sin permiso.
+ */
 export const updateSale = async (req: Request, res: Response) => {
   const sale = req.body;
   try {
@@ -138,6 +273,30 @@ export const updateSale = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * @swagger
+ * /sale/{id}:
+ *   delete:
+ *     summary: Eliminar una venta por ID
+ *     tags:
+ *       - Ventas
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: number
+ *         description: ID de la venta a eliminar.
+ *     responses:
+ *       200:
+ *         description: Venta eliminada correctamente.
+ *       400:
+ *         description: Solicitud incorrecta.
+ *       401:
+ *         description: No autenticado.
+ *       403:
+ *         description: Usuario sin permiso.
+ */
 export const deleteSale = async (req: Request, res: Response) => {
   const id = +req.params.id;
   try {
