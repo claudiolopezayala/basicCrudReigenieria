@@ -1,3 +1,4 @@
+import { employeeTable } from "../db/schemas/entitySchema";
 import Joi from "joi";
 
 export const postEmployeeValidation = Joi.object({
@@ -15,9 +16,9 @@ export const postEmployeeValidation = Joi.object({
   phone: Joi.string().optional().messages({
     "string.base": "The phone must be of type text",
   }),
-  role: Joi.string().valid("manager", "cashier", "stock_keeper", "sales_rep").required().messages({
+  role: Joi.string().valid(...employeeTable.role.enumValues).required().messages({
     "string.base": "The role must be of type text",
-    "any.only": "The role must be one of 'manager', 'cashier', 'stock_keeper', 'sales_rep'",
+    "any.only": `The role must be one of ${employeeTable.role.enumValues}`,
     "any.required": "The role is required",
   }),
   hire_date: Joi.date().required().messages({
@@ -44,9 +45,9 @@ export const putEmployeeValidation = Joi.object({
   phone: Joi.string().optional().messages({
     "string.base": "The phone must be of type text",
   }),
-  role: Joi.string().valid("manager", "cashier", "stock_keeper", "sales_rep").messages({
+  role: Joi.string().valid(...employeeTable.role.enumValues).messages({
     "string.base": "The role must be of type text",
-    "any.only": "The role must be one of 'manager', 'cashier', 'stock_keeper', 'sales_rep'",
+    "any.only": `The role must be one of ${employeeTable.role.enumValues}`,
   }),
   hire_date: Joi.date().messages({
     "date.base": "The hire date must be a valid date",
